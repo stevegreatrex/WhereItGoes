@@ -1,0 +1,251 @@
+/*
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 3.0 License
+
+Name       : Erasure
+Description: A two-column, fixed-width design with a dark color scheme.
+Version    : 1.0
+Released   : 20120205
+*/
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+a {
+	text-decoration: underline;
+	color: #CC7F5C;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+body {
+	background: #0C1114 url(images/img01.jpg) no-repeat top center;
+	color: #8EA2AD;
+	line-height: 1.75em;
+	font-size: 12pt;
+}
+
+body,input {
+	font-family: "Trebuchet MS", sans-serif;
+}
+
+br.clearfix {
+	clear: both;
+}
+
+strong {
+	color: #CEE2ED;
+}
+
+h1,h2,h3,h4 {
+	font-weight: normal;
+	text-transform: lowercase;
+}
+
+h2 {
+	font-size: 1.5em;
+}
+
+h2,h3,h4 {
+	color: #FFFFFF;
+	margin-bottom: 1em;
+	font-family: Oswald, sans-serif;
+	text-shadow: 0px 1px 1px #0C1114;
+}
+
+h3 {
+	font-size: 1.25em;
+}
+
+h4 {
+	font-size: 1em;
+}
+
+img.alignleft {
+	margin: 5px 20px 20px 0;
+	float: left;
+}
+
+img.aligntop {
+	margin: 5px 0 20px 0;
+}
+
+p {
+	margin-bottom: 1.5em;
+}
+
+ul {
+	margin-bottom: 1.5em;
+}
+
+ul h4 {
+	margin-bottom: 0.35em;
+}
+
+#content {
+	float: left;
+	padding: 0;
+	width: 675px;
+}
+
+#footer {
+	text-align: center;
+	background: #090C0E;
+	width: 860px;
+	padding: 20px;
+	margin: 0 auto 150px auto;
+	border-bottom: solid 1px #16232D;
+	border-top: solid 1px #000000;
+	color: #313C44;
+}
+
+#footer a {
+	color: #313C44;
+}
+
+#header {
+	position: relative;
+	padding: 40px;
+	height: 90px;
+}
+
+#logo {
+	top: 75px;
+	position: absolute;
+	left: 40px;
+}
+
+#logo a {
+	text-decoration: none;
+	color: #FFFFFF;
+}
+
+#logo h1 {
+	font-size: 3.5em;
+	font-family: Oswald, sans-serif;
+	text-shadow: 0px 2px 2px #0C1114;
+	margin: 0 0 0.25em 0;
+}
+
+#logo h2 {
+	margin: 0;
+	padding: 0;
+	white-space: nowrap;
+	font-size: 1.0em;
+	color: #8EA2AD;
+}
+
+#menu {
+	font-family: Oswald, sans-serif;
+	position: absolute;
+	background: #BD704D url(images/img02.gif) repeat-x top left;
+	right: 40px;
+	line-height: 60px;
+	border-top: solid 1px #F9AC89;
+	top: 77px;
+	height: 60px;
+	border-bottom: solid 1px #B36643;
+}
+
+#menu a {
+	color: #FFFFFF;
+	text-decoration: none;
+	text-transform: lowercase;
+	font-size: 1.25em;
+	text-shadow: 0px 1px 1px #854022;
+}
+
+#menu ul {
+	padding: 0 20px 0 20px;
+	list-style: none;
+}
+
+#menu ul li {
+	display: inline;
+	padding: 0 15px 0 15px;
+}
+
+#page {
+	position: relative;
+	margin: 0 0 0 0;
+	padding: 40px 40px 0 40px;
+	width: 900px;
+}
+
+#page .section-list {
+	list-style: none;
+	padding-left: 0;
+}
+
+#page .section-list li {
+	padding: 25px 0 25px 0;
+	clear: both;
+}
+
+#page ul {
+	list-style: none;
+}
+
+#page ul li {
+	padding: 15px 0 15px 0;
+	border-top: solid 1px #16232D;
+	border-bottom: solid 1px #000000;
+}
+
+#page ul li.first {
+	padding-top: 0;
+	border-top: 0;
+}
+
+#page ul li.last {
+	border-bottom: 0;
+}
+
+#post1 {
+	margin: 0 0 25px 0;
+	overflow: hidden;
+	width: 675px;
+}
+
+#post2 {
+	float: left;
+	overflow: hidden;
+	width: 325px;
+}
+
+#post3 {
+	margin: 0 0 0 350px;
+	overflow: hidden;
+	width: 325px;
+}
+
+#search input.form-submit {
+	color: #FFFFFF;
+	font-family: Oswald, sans-serif;
+	padding: 5px;
+	margin-left: 1em;
+	background: #CC7F5C;
+	border: 0;
+}
+
+#search input.form-text {
+	padding: 10px;
+	border: dotted 1px #26333D;
+}
+
+#sidebar {
+	padding: 0;
+	width: 200px;
+	margin: 0 0 0 700px;
+}
+
+#wrapper {
+	width: 980px;
+	margin: 80px auto 0 auto;
+	position: relative;
+}

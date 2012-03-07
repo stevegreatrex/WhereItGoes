@@ -3,15 +3,18 @@
 <head>
     <meta charset="utf-8" />
     <title>@ViewBag.Title</title>
+    <link href="@Url.Content("~/Content/style.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
     <script src="@Url.Content("~/Scripts/jquery-1.7.1.min.js")" type="text/javascript"></script>
-    <script src="@Url.Content("~/Scripts/modernizr-1.7.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/knockout.js")" type="text/javascript"></script>
+
+    <script src="@Url.Content("~/Scripts/App.js")" type="text/javascript"></script>
 </head>
 <body>
     <div class="page">
-        <header>
-            <div id="title">
-                <h1>My MVC Application</h1>
+        <header id="header">
+            <div id="logo">
+                <h1><a href="@Url.Action("Home", "Index")">Where It Goes</a></h1>
             </div>
             <nav>
                 <ul id="menu">
@@ -19,11 +22,18 @@
                 </ul>
             </nav>
         </header>
-        <section id="main">
-            @RenderBody()
+        <section id="page">
+            <div id="content">
+                @RenderBody()
+            </div>
         </section>
         <footer>
         </footer>
     </div>
 </body>
 </html>
+
+@foreach (string script in ViewBag.Scripts ?? new string[0])
+{ 
+    <script src="@Url.Content(script)" type="text/javascript"></script>
+}
