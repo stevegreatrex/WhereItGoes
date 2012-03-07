@@ -17,9 +17,12 @@
                 <h1><a href="@Url.Action("Home", "Index")">Where It Goes</a></h1>
             </div>
             <nav>
-                <ul id="menu">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                </ul>
+                <div id="menu">
+                    <ul>
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Categories", "Categories", "Home")</li>
+                    </ul>
+                </div>
             </nav>
         </header>
         <section id="page">

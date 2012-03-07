@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "Categories: Where It Goes";
+    ViewBag.Scripts = new[] { "~/Scripts/ViewModels/CategoriesViewModel.js" };
+    
+}
+
+<h2>Manage Categories</h2>
+<ul data-bind="template: { name: 'category-template', foreach: categories }">
+    
+</ul>
+<span data-bind="if: loading" class="loading-marker">Loading...</span>
+
+<script type="text/html" id="category-template">
+    <li><h3 data-bind="text: Name"></h3></li>
+</script>
