@@ -5,10 +5,11 @@ using System.Text;
 
 namespace WhereItGoes.Model
 {
-	public class Category
+	public class Transaction
 	{
-		public string Name { get; set; }
-
 		public Guid Id { get; set; }
+		public double Value { get; set; }
+		public DateTime Date { get; set; }
+		public ICollection<Category> Categories { get; set; }
 	}
 }

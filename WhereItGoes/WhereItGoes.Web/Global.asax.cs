@@ -35,7 +35,7 @@ namespace WhereItGoes.Web
 		{
 			AreaRegistration.RegisterAllAreas();
 
-			Database.SetInitializer<DataContext>(new DropCreateDatabaseIfModelChanges<DataContext>());
+			Database.SetInitializer<DataContext>(new MigrateDatabaseToLatestVersion<DataContext, WhereItGoes.Data.Migrations.Configuration>());
 
 			RegisterGlobalFilters(GlobalFilters.Filters);
 			RegisterRoutes(RouteTable.Routes);

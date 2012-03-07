@@ -5,10 +5,11 @@ using System.Text;
 
 namespace WhereItGoes.Model
 {
-	public class Category
+	public class Rule
 	{
-		public string Name { get; set; }
-
 		public Guid Id { get; set; }
+		public string Name { get; set; }
+		public string Pattern { get; set; }
+		public Category Result { get; set; }
 	}
 }
