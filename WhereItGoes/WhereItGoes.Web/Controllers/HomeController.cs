@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Web.Mvc;
 using WhereItGoes.Data;
 using WhereItGoes.Model;
@@ -32,6 +34,18 @@ namespace WhereItGoes.Web.Controllers
 		public ActionResult GetCategories()
 		{
 			return Json(_db.Categories.OrderBy(c => c.Name).ToList());
+		}
+
+		[HttpPost]
+		public ActionResult SaveCategory(Category category)
+		{
+			var match = _db.Categories.FirstOrDefault(c => c.Id == category.Id);
+			if (match == null) return Json(false);
+
+			match.Name = category.Name;
+			_db.SaveChanges();
+
+			return Json(true);
 		}
 
 		#endregion
