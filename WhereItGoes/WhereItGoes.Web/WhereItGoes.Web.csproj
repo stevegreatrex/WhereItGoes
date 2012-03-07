@@ -117,6 +117,7 @@
     <Content Include="Scripts\modernizr-1.7.js" />
     <Content Include="Scripts\modernizr-1.7.min.js" />
     <Content Include="Scripts\ViewModels\CategoriesViewModel.js" />
+    <Content Include="Scripts\ViewModels\EditableViewModelBase.js" />
     <Content Include="Scripts\ViewModels\HomeViewModel.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

@@ -1,37 +1,24 @@
 ﻿(function (App) {
     App.ViewModels.CategoryViewModel = function (category) {
-        var _self = {};
+        App.ViewModels.EditableViewModelBase.apply(this);
+        var _self = this;
         _self.name = ko.observable(category.Name);
-        _self.editing = ko.observable(false);
-        _self.saving = ko.observable(false);
-        _self.error = ko.observable(false);
 
-        _self.edit = function () {
-            _self.editing(true);
-        };
-
-        _self.commit = function () {
-            //set a few UI flags
-            _self.editing(false);
-            _self.saving(true);
-            _self.error(false);
+        _self.innerCommit = function (complete) {
 
             //update the original object
             category.Name = _self.name();
 
             //post back to the server
             $.post("savecategory", category, function (data) {
-                //update the UI flags
-                _self.saving(false);
-
-                //report an error if necessary
-                if (!data)
-                    _self.error(true);
-              
+                complete(data);
             });
         };
         return _self;
     };
+
+    App.ViewModels.CategoryViewModel.prototype = App.ViewModels.EditableViewModelBase.prototype;
+
 })(App);
 
 (function (App) {
