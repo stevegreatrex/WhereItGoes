@@ -7,3 +7,13 @@
 {
     font-style: italic;
 }
+
+.list-editor-control
+{
+    float: right;
+}
+
+.error
+{
+    color: Red;
+}

@@ -15,10 +15,10 @@
         <span data-bind="text: name, visible: !editing()"></span>
         <form data-bind="submit: commit, visible: editing">
             <input data-bind="value: name"></input>
-            <a href="#" data-bind="click: commit, visible: editing() && !error()">Save</a>
-            <a href="#" class="error-message" data-bind="visible: error, click: commit">Save Error - Click to Retry</a>
+            <a href="#" class="list-editor-control" data-bind="click: commit, visible: editing() && !error()">Save</a>
         </form>
-        <a href="#" data-bind="click: edit, visible: !(editing() || saving() || error())">Edit</a>
-        <span data-bind="visible: saving" class="loading-marker">Saving...</span>
+        <a href="#" class="error-message list-editor-control" data-bind="visible: error, click: commit">Save Error - Click to Retry</a>
+        <a href="#" class="list-editor-control" data-bind="click: edit, visible: !(editing() || saving() || error())">Edit</a>
+        <span data-bind="visible: saving" class="loading-marker list-editor-control">Saving...</span>
     </li>
 </script>
