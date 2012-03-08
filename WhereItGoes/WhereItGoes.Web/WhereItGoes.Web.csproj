@@ -119,6 +119,7 @@
     <Content Include="Scripts\modernizr-1.7.min.js" />
     <Content Include="Scripts\qunit.js" />
     <Content Include="Scripts\Tests\TestCategoriesViewModel.js" />
+    <Content Include="Scripts\Tests\TestEditableViewModelBase.js" />
     <Content Include="Scripts\ViewModels\CategoriesViewModel.js" />
     <Content Include="Scripts\ViewModels\EditableViewModelBase.js" />
     <Content Include="Scripts\ViewModels\HomeViewModel.js" />
