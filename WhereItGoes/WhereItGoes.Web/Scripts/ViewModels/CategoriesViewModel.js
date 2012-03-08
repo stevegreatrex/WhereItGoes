@@ -19,6 +19,13 @@
             _self.name(category.Name);
         };
 
+        _self._remove = function(complete) {
+            //post back to the server
+            $.post("removecategory", category, function (data) {
+                complete(data);
+            });
+        };
+
         return _self;
     };
 

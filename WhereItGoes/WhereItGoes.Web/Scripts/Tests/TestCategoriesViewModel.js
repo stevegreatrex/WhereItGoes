@@ -66,6 +66,44 @@ test("Commit", function () {
     equal(completeData, false, "The post data result should be passed back to complete callback");
 });
 
+test("Remove", function () {
+    var category = { Name: "name" };
+    var vm = new App.ViewModels.CategoryViewModel(category);
+
+    //set up a fake completion callback that records the passed result
+    var completeData = null;
+    var completeCallback = function (data) {
+        completeData = data;
+    };
+
+    //set up a fake jQuery.post
+    var postUrl = null;
+    var postData = null;
+    var postCallback = null;
+    jQuery.post = function (url, data, callback) {
+        postUrl = url;
+        postData = data;
+        postCallback = callback;
+    };
+
+    //call the remove with the fake callback
+    vm._remove(completeCallback);
+
+    //check that post has been called, that the name has been updated and that the complete
+    //callback has not been called
+    equal(postUrl, "removecategory", "Should have posted to the removecategory method");
+    equal(postData, category, "Should have passed the source data as post data");
+    equal(null, completeData, "The complete callback should not be called until post completes");
+
+    //call the post success callback with 'true' and check that true was passed to complete callback
+    postCallback(true);
+    equal(completeData, true, "The post data result should be passed back to complete callback");
+
+    //call the post success callback with 'false' and check that false was passed to complete callback
+    postCallback(false);
+    equal(completeData, false, "The post data result should be passed back to complete callback");
+});
+
 module("CategoriesViewModel Tests");
 
 test("Properties Setup", function () {

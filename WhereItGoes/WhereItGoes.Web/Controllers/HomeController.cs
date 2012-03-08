@@ -48,6 +48,18 @@ namespace WhereItGoes.Web.Controllers
 			return Json(true);
 		}
 
+		[HttpPost]
+		public ActionResult RemoveCategory(Category category)
+		{
+			var match = _db.Categories.FirstOrDefault(c => c.Id == category.Id);
+			if (match == null) return Json(false);
+
+			_db.Categories.Remove(match);
+			_db.SaveChanges();
+
+			return Json(true);
+		}
+
 		#endregion
 
 		protected override void Dispose(bool disposing)
