@@ -5,6 +5,10 @@
         _self.name = ko.observable(rule.Name);
         _self.rule = rule;
 
+        _self.updateRule = function () {
+            _self.rule.Name = _self.name();
+        };
+
         return _self;
     };
 
@@ -28,6 +32,12 @@
 
             //update the original object
             category.Name = _self.name();
+            category.Rules = [];
+            for (var i = 0; i < _self.rules().length; i++) {
+                var ruleVM = _self.rules()[i];
+                ruleVM.updateRule();
+                category.Rules.push(ruleVM.rule);
+            }
 
             //post back to the server
             $.post("savecategory", category, function (data) {

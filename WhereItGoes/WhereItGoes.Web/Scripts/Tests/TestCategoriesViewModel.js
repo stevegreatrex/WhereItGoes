@@ -53,13 +53,20 @@ test("Cancel", function () {
 });
 
 test("Commit", function () {
-    var category = { Name: "old name" };
+    var category = {
+        Name: "old name",
+        Rules: [{ Name: "old rule name" }]
+    };
     var vm = new App.ViewModels.CategoryViewModel(category);
 
     //set the name on the view model
     vm.name("new name");
     equal(vm.name(), "new name", "The name should be updated");
     equal(category.Name, "old name", "The category should not be updated yet");
+
+    //update the rules
+    vm.rules()[0].name("new rule name");
+    vm.rules().push(new App.ViewModels.RuleViewModel({ Name: "new rule" }));
 
     //set up a fake completion callback that records the passed result
     var completeData = null;
@@ -80,9 +87,9 @@ test("Commit", function () {
     //call the commit with the fake callback
     vm._commit(completeCallback);
 
-    //check that post has been called, that the name has been updated and that the complete
+    //check that post has been called, that the category has been updated and that the complete
     //callback has not been called
-    equal(category.Name, "new name", "The name on the source data should be updated");
+    deepEqual(category, { Name: "new name", Rules: [{ Name: "new rule name" }, { Name: "new rule"}] }, "The source data should have been updated");
     equal(postUrl, "savecategory", "Should have posted to the savecategory method");
     equal(postData, category, "Should have passed the source data as post data");
     equal(null, completeData, "The complete callback should not be called until post completes");
