@@ -147,3 +147,36 @@ test("Load Categories", function () {
     equal(vm.categories().length, 1, "Expected only 1 result now");
     equal(vm.categories()[0].name(), "three", "Expected result to be a CategoryViewModel");
 });
+
+test("Add Category", function () {
+    //set up a fake $.post to prevent errors during construction
+    jQuery.post = function (url, callback) {
+        callback([]);
+    };
+
+    //create vm
+    var vm = new App.ViewModels.CategoriesViewModel();
+
+    //set up a fake jQuery.post to handle Add
+    var postUrl = null;
+    var postCallback = null;
+    jQuery.post = function (url, callback) {
+        postUrl = url;
+        postCallback = callback;
+    };
+
+    //call addCategory
+    vm.addCategory();
+
+    //check that loading is true and that the post was called
+    equal(vm.loading(), true, "Should be loading");
+    equal(postUrl, "addcategory", "Should have made POST to addcategory");
+
+    //call the complete callback
+    var category = { Name: "new category" };
+    postCallback(category);
+
+    //check that a new view model was added to categories
+    equal(vm.categories().length, 1, "Expected the new result");
+    equal(vm.categories()[0].name(), "new category", "Expected result to be a CategoryViewModel");
+});

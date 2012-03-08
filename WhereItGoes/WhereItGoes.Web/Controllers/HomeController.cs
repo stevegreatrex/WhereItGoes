@@ -37,6 +37,21 @@ namespace WhereItGoes.Web.Controllers
 		}
 
 		[HttpPost]
+		public ActionResult AddCategory()
+		{
+			var category = new Category
+			{
+				Id = Guid.NewGuid(),
+				Name = "New Category"
+			};
+
+			_db.Categories.Add(category);
+			_db.SaveChanges();
+
+			return Json(category);
+		}
+
+		[HttpPost]
 		public ActionResult SaveCategory(Category category)
 		{
 			var match = _db.Categories.FirstOrDefault(c => c.Id == category.Id);

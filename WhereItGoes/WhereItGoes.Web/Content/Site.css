@@ -19,6 +19,12 @@
     color: Red;
 }
 
+.list-editor-control-container
+{
+    display: inline;
+    float: right;
+}
+
 .removed
 {
     text-decoration: line-through;

@@ -8,9 +8,8 @@
 }
 
 <h2>Manage Categories</h2>
-<ul data-bind="template: { name: 'category-template', foreach: categories }">
-    
-</ul>
+<ul data-bind="template: { name: 'category-template', foreach: categories }"></ul>
+<a href="#" data-bind="click: addCategory, visible: !loading()">Add Category</a>
 <span data-bind="if: loading" class="loading-marker">Loading...</span>
 
 <script type="text/html" id="category-template">
@@ -21,7 +20,7 @@
             <a href="#" class="list-editor-control" data-bind="click: cancel">Cancel</a>
             <a href="#" class="list-editor-control" data-bind="click: commit, visible: editing() && !error()">Save</a>
         </form>
-        <div data-bind="visible: !removed()">
+        <div data-bind="visible: !removed()" class="list-editor-control-container">
             <a href="#" class="error-message list-editor-control" data-bind="visible: error, click: commit">Save Error - Click to Retry</a>
             <a href="#" class="list-editor-control" data-bind="click: remove, visible: !(editing() || saving() || error())">Delete</a>
             <a href="#" class="list-editor-control" data-bind="click: edit, visible: !(editing() || saving() || error())">Edit</a>

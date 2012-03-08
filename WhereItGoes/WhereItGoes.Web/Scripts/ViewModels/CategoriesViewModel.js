@@ -49,6 +49,14 @@
             });
         };
 
+        _self.addCategory = function () {
+            _self.loading(true);
+            $.post("addcategory", function (data) {
+                _self.categories.push(new App.ViewModels.CategoryViewModel(data));
+                _self.loading(false);
+            });
+        };
+
         _self.loadCategories();
 
         return _self;
