@@ -73,6 +73,7 @@
     <Content Include="Content\images\img01.jpg" />
     <Content Include="Content\images\img02.gif" />
     <Content Include="Content\images\img03.jpg" />
+    <Content Include="Content\qunit.css" />
     <Content Include="Content\style.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -116,9 +117,12 @@
     <Content Include="Scripts\knockout.js" />
     <Content Include="Scripts\modernizr-1.7.js" />
     <Content Include="Scripts\modernizr-1.7.min.js" />
+    <Content Include="Scripts\qunit.js" />
+    <Content Include="Scripts\Tests\TestCategoriesViewModel.js" />
     <Content Include="Scripts\ViewModels\CategoriesViewModel.js" />
     <Content Include="Scripts\ViewModels\EditableViewModelBase.js" />
     <Content Include="Scripts\ViewModels\HomeViewModel.js" />
+    <Content Include="TestRunner.htm" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
