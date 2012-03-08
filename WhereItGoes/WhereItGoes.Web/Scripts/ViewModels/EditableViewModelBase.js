@@ -24,7 +24,7 @@
         _self.saving(true);
         _self.error(false);
 
-        this.innerCommit(function (success) {
+        this._commit(function (success) {
             _self.saving(false);
 
             if (!success)
