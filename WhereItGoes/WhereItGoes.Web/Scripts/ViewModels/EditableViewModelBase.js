@@ -5,12 +5,16 @@
         this.error = ko.observable(false);
     };
 
-    App.ViewModels.EditableViewModelBase.prototype.edit = function () {
-        this.editing(true);
+    App.ViewModels.EditableViewModelBase.prototype._commit = function (complete) {
+        complete(true);
     };
 
-    App.ViewModels.EditableViewModelBase.prototype.innerCommit = function (complete) {
-        complete(true);
+    App.ViewModels.EditableViewModelBase.prototype._cancel = function () {
+        //do nothing by default
+    };
+
+    App.ViewModels.EditableViewModelBase.prototype.edit = function () {
+        this.editing(true);
     };
 
     App.ViewModels.EditableViewModelBase.prototype.commit = function () {
@@ -26,5 +30,12 @@
             if (!success)
                 _self.error(true);
         });
+    };
+
+    App.ViewModels.EditableViewModelBase.prototype.cancel = function () {
+        this._cancel();
+        this.editing(false);
+        this.saving(false);
+        this.error(false);
     };
 })(App);

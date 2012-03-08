@@ -18,6 +18,7 @@
         <span data-bind="text: name, visible: !editing()"></span>
         <form data-bind="submit: commit, visible: editing">
             <input data-bind="value: name"></input>
+            <a href="#" class="list-editor-control" data-bind="click: cancel">Cancel</a>
             <a href="#" class="list-editor-control" data-bind="click: commit, visible: editing() && !error()">Save</a>
         </form>
         <a href="#" class="error-message list-editor-control" data-bind="visible: error, click: commit">Save Error - Click to Retry</a>

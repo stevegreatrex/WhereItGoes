@@ -11,6 +11,7 @@
 .list-editor-control
 {
     float: right;
+    margin-left: 3px;
 }
 
 .error

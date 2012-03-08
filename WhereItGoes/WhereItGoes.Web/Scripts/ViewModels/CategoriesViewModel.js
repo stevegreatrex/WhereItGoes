@@ -4,7 +4,7 @@
         var _self = this;
         _self.name = ko.observable(category.Name);
 
-        _self.innerCommit = function (complete) {
+        _self._commit = function (complete) {
 
             //update the original object
             category.Name = _self.name();
@@ -14,9 +14,14 @@
                 complete(data);
             });
         };
+
+        _self._cancel = function () {
+            _self.name(category.Name);
+        };
+
         return _self;
     };
-    
+
     App.Utils.inheritsFrom(App.ViewModels.CategoryViewModel, App.ViewModels.EditableViewModelBase);
 })(App);
 
