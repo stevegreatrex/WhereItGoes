@@ -7,5 +7,105 @@ test("Name Property Set", function () {
     equal(vm.name(), category.Name, "The name property should be set to the passed in value");
 });
 
+test("Cancel", function () {
+    var category = { Name: "old name" };
+    var vm = new App.ViewModels.CategoryViewModel(category);
+
+    //set the name on the view model
+    vm.name("new name");
+    equal(vm.name(), "new name", "The name should be updated");
+    equal(category.Name, "old name", "The category should not be updated yet");
+
+    //cancel
+    vm.cancel();
+    equal(vm.name(), "old name", "The name change should be reversed");
+    equal(category.Name, "old name", "The category should not be updated");
+});
+
+test("Commit", function () {
+    var category = { Name: "old name" };
+    var vm = new App.ViewModels.CategoryViewModel(category);
+
+    //set the name on the view model
+    vm.name("new name");
+    equal(vm.name(), "new name", "The name should be updated");
+    equal(category.Name, "old name", "The category should not be updated yet");
+
+    //set up a fake completion callback that records the passed result
+    var completeData = null;
+    var completeCallback = function (data) {
+        completeData = data;
+    };
+
+    //set up a fake jQuery.post
+    var postUrl = null;
+    var postData = null;
+    var postCallback = null;
+    jQuery.post = function (url, data, callback) {
+        postUrl = url;
+        postData = data;
+        postCallback = callback;
+    };
+
+    //call the commit with the fake callback
+    vm._commit(completeCallback);
+
+    //check that post has been called, that the name has been updated and that the complete
+    //callback has not been called
+    equal(category.Name, "new name", "The name on the source data should be updated");
+    equal(postUrl, "savecategory", "Should have posted to the savecategory method");
+    equal(postData, category, "Should have passed the source data as post data");
+    equal(null, completeData, "The complete callback should not be called until post completes");
+
+    //call the post success callback with 'true' and check that true was passed to complete callback
+    postCallback(true);
+    equal(completeData, true, "The post data result should be passed back to complete callback");
+
+    //call the post success callback with 'false' and check that false was passed to complete callback
+    postCallback(false);
+    equal(completeData, false, "The post data result should be passed back to complete callback");
+});
+
 module("CategoriesViewModel Tests");
 
+test("Properties Setup", function () {
+    //set up a fake $.post to prevent errors
+    jQuery.post = function (url, callback) {
+        callback([]);
+    };
+
+    var vm = new App.ViewModels.CategoriesViewModel();
+    equal(vm.categories().length, 0, "categories property should be initially empty");
+    equal(vm.loading(), false, "loading should be false");
+});
+
+test("Load Categories", function () {
+    //set up a fake jQuery.post
+    var postUrl = null;
+    var postCallback = null;
+    jQuery.post = function (url, callback) {
+        postUrl = url;
+        postCallback = callback;
+    };
+
+    //construct VM, which kicks off loading
+    var vm = new App.ViewModels.CategoriesViewModel();
+
+    //check that we are loading and that post has been called
+    equal(vm.loading(), true, "Should now be loading");
+    equal(postUrl, "getcategories", "Post should have been made to getcategories");
+
+    //now make the success callback and check that the data is updated
+    var result = [{ Name: "one" }, { Name: "two"}];
+    postCallback(result);
+    equal(vm.loading(), false, "Should no longer be loading after post completion");
+    equal(vm.categories().length, 2, "Expected 2 results");
+    equal(vm.categories()[0].name(), "one", "Expected result to be a CategoryViewModel");
+    equal(vm.categories()[1].name(), "two", "Expected result to be a CategoryViewModel");
+
+    //finally, re-refresh to check that old results are replaced
+    var newResult = [{ Name: "three"}];
+    postCallback(newResult);
+    equal(vm.categories().length, 1, "Expected only 1 result now");
+    equal(vm.categories()[0].name(), "three", "Expected result to be a CategoryViewModel");
+});

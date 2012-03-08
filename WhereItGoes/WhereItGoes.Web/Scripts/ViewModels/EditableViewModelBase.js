@@ -38,4 +38,8 @@
         this.saving(false);
         this.error(false);
     };
+
+    App.ViewModels.EditableViewModelBase.prototype.delete = function() {
+
+    };
 })(App);
