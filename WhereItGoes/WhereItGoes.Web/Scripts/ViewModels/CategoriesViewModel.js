@@ -16,9 +16,8 @@
         };
         return _self;
     };
-
-    App.ViewModels.CategoryViewModel.prototype = App.ViewModels.EditableViewModelBase.prototype;
-
+    
+    App.Utils.inheritsFrom(App.ViewModels.CategoryViewModel, App.ViewModels.EditableViewModelBase);
 })(App);
 
 (function (App) {
