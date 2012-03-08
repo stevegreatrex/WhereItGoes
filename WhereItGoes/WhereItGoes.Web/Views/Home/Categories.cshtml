@@ -26,5 +26,15 @@
             <a href="#" class="list-editor-control" data-bind="click: edit, visible: !(editing() || saving() || error())">Edit</a>
             <span data-bind="visible: saving" class="loading-marker list-editor-control">Saving...</span>
         </div>
+        <div data-bind="visible: editing" class="rules-container">
+            <ul data-bind="template: { name: 'rule-template', foreach: rules }">
+            </ul>
+        </div>
+    </li>
+</script>
+
+<script type="text/html" id="rule-template">
+    <li data-bind="css: { removed: removed }">
+        <span data-bind="text: name"></span>
     </li>
 </script>

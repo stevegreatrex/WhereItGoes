@@ -1,8 +1,28 @@
 ﻿(function (App) {
+    App.ViewModels.RuleViewModel = function (rule) {
+        App.ViewModels.EditableViewModelBase.apply(this);
+        var _self = this;
+        _self.name = ko.observable(rule.Name);
+        _self.rule = rule;
+
+        return _self;
+    };
+
+    App.Utils.inheritsFrom(App.ViewModels.RuleViewModel, App.ViewModels.EditableViewModelBase);
+})(App);
+
+(function (App) {
     App.ViewModels.CategoryViewModel = function (category) {
         App.ViewModels.EditableViewModelBase.apply(this);
         var _self = this;
         _self.name = ko.observable(category.Name);
+        _self.rules = ko.observableArray();
+
+        if (category.Rules) {
+            for (var i = 0; i < category.Rules.length; i++) {
+                _self.rules.push(new App.ViewModels.RuleViewModel(category.Rules[i]));
+            }
+        }
 
         _self._commit = function (complete) {
 

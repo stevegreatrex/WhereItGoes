@@ -10,5 +10,7 @@ namespace WhereItGoes.Model
 		public string Name { get; set; }
 
 		public Guid Id { get; set; }
+
+		public ICollection<Rule> Rules { get; set; }
 	}
 }

@@ -58,6 +58,7 @@ namespace WhereItGoes.Web.Controllers
 			if (match == null) return Json(false);
 
 			match.Name = category.Name;
+			match.Rules = category.Rules;
 			_db.SaveChanges();
 
 			return Json(true);

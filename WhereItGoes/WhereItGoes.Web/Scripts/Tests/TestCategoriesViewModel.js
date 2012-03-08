@@ -1,10 +1,40 @@
-﻿module("CategoryViewModel Tests");
+﻿module("RuleViewModel Tests");
+
+test("Name Property Set", function () {
+    var rule = { Name: "a name" };
+    var vm = new App.ViewModels.RuleViewModel(rule);
+
+    equal(vm.name(), rule.Name, "The name property should be set to the passed in value");
+});
+
+test("Rule Property Set", function () {
+    var rule = { Name: "a name" };
+    var vm = new App.ViewModels.RuleViewModel(rule);
+
+    equal(vm.rule, rule, "The rule parameter should be exposed as an object property");
+});
+
+module("CategoryViewModel Tests");
 
 test("Name Property Set", function () {
     var category = { Name: "a name" };
     var vm = new App.ViewModels.CategoryViewModel(category);
 
     equal(vm.name(), category.Name, "The name property should be set to the passed in value");
+});
+
+test("Rules Property Set", function () {
+    var category = {
+        Name: "name",
+        Rules: [{ Name: "rule1" }, { Name: "rule2"}]
+    };
+
+    var vm = new App.ViewModels.CategoryViewModel(category);
+
+    //check that the rules property is populated
+    equal(vm.rules().length, 2, "Expected 2 rules");
+    equal(vm.rules()[0].name(), "rule1", "Created rules should be RuleViewModels");
+    equal(vm.rules()[1].name(), "rule2", "Created rules should be RuleViewModels");
 });
 
 test("Cancel", function () {
