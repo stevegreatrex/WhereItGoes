@@ -18,3 +18,9 @@
 {
     color: Red;
 }
+
+.removed
+{
+    text-decoration: line-through;
+    color: Red;
+}

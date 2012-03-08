@@ -5,6 +5,7 @@ test("Adds UI Flags", function () {
     equal(vm.editing(), false, "Should not be editing");
     equal(vm.saving(), false, "Should not be saving");
     equal(vm.error(), false, "Should not have an error");
+    equal(vm.removed(), false, "Should not be deleted");
 });
 
 test("Edit", function () {
@@ -68,4 +69,40 @@ test("Cancel", function () {
     //check that editing was reset and that the inner cancel was called
     equal(vm.editing(), false, "Editing should have been reset");
     equal(cancelled, true, "The inner cancel method should have been executed");
+});
+
+test("Remove", function () {
+    var vm = new App.ViewModels.EditableViewModelBase();
+
+    //replace the inner delete method
+    var completeFunction = null;
+    vm._remove = function (complete) {
+        completeFunction = complete;
+    };
+
+    //start the delete
+    vm.remove();
+
+    //check that we are now saving and that the delete function has been called
+    equal(vm.editing(), false, "Should not now be editing");
+    equal(vm.saving(), true, "Should now be saving");
+    notEqual(completeFunction, null, "The inner complete function should have been called");
+    equal(vm.removed(), false, "Should not be marked as deleted yet");
+
+    //now call the complete function with Success=true
+    completeFunction(true);
+    equal(vm.saving(), false, "Save should be completed");
+    equal(vm.error(), false, "No error should be reported");
+    equal(vm.editing(), false, "Should still not be editing");
+    equal(vm.removed(), true, "Should now be marked as deleted");
+
+    //commit again, but this time report an error
+    vm.edit();
+    vm.commit();
+    completeFunction(false);
+    equal(vm.saving(), false, "Save should be completed, even though there was an error");
+    equal(vm.error(), true, "The error should be reported");
+    equal(vm.editing(), false, "Should still not be editing");
+    equal(vm.removed(), false, "Should not be marked as deleted");
+
 });
