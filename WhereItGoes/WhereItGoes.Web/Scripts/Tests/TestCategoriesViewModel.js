@@ -48,3 +48,24 @@ test("Commit", function () {
     equal(vm.error(), true, "The error should be reported");
     equal(vm.editing(), false, "Should still not be editing");
 });
+
+test("Cancel", function () {
+    var vm = new App.ViewModels.EditableViewModelBase();
+
+    //enter edit mode
+    vm.edit();
+    equal(vm.editing(), true, "Editing should now  be true");
+
+    //replace inner cancel
+    var cancelled = false;
+    vm._cancel = function () {
+        cancelled = true;
+    };
+
+    //now cancel
+    vm.cancel();
+
+    //check that editing was reset and that the inner cancel was called
+    equal(vm.editing(), false, "Editing should have been reset");
+    equal(cancelled, true, "The inner cancel method should have been executed");
+});
