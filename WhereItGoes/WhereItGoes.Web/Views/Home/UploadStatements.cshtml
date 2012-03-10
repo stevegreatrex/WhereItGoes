@@ -1,7 +1,8 @@
 ﻿@{
     ViewBag.Title = "Upload Statements - Where It Goes";
     ViewBag.Scripts = new[] { 
-        "~/Scripts/jquery.form.js"
+        "~/Scripts/jquery.form.js",
+        "~/Scripts/ViewModels/UploadStatementsViewModel.js"
     };
 }
 
@@ -10,13 +11,7 @@
 @using(Html.BeginForm("UploadStatement", "Home", FormMethod.Post, new { enctype = "multipart/form-data", id = "uploadform" }))
 {
     <input type="file" name="file" id="file" />
-    <input type="submit" />
+    <input type="submit" data-bind="visible: !processing()" />
+    <span data-bind="visible: processing" class="loading-marker">Processing file...</span>
+    <span data-bind="visible: error">Could not upload file</span>
 }
-
-<script>
-    $(function () {
-        $("#uploadform").ajaxForm(function (data) {
-            
-        });
-    });
-</script>

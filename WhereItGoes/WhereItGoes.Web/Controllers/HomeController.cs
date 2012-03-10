@@ -83,6 +83,15 @@ namespace WhereItGoes.Web.Controllers
 		public ActionResult SaveCategory(Category category)
 		{
 			_db.Categories.AddOrUpdate(category);
+
+			if (category.Rules != null)
+			{
+				foreach (var rule in category.Rules)
+				{
+					_db.Rules.AddOrUpdate(rule);
+				}
+			}
+
 			_db.SaveChanges();
 
 			return SafeJson(true);

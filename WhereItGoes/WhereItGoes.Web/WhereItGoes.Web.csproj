@@ -72,6 +72,7 @@
     </Compile>
     <Compile Include="JsonNetResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Scripts\Tests\TestUploadStatementsViewModel.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\images\img01.jpg" />
@@ -128,6 +129,7 @@
     <Content Include="Scripts\ViewModels\CategoriesViewModel.js" />
     <Content Include="Scripts\ViewModels\EditableViewModelBase.js" />
     <Content Include="Scripts\ViewModels\HomeViewModel.js" />
+    <Content Include="Scripts\ViewModels\UploadStatementsViewModel.js" />
     <Content Include="TestRunner.htm" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

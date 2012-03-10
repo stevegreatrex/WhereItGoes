@@ -11,6 +11,6 @@ namespace WhereItGoes.Model
 		public double Value { get; set; }
 		public DateTime Date { get; set; }
 		public string Description { get; set; }
-		public Category Category { get; set; }
+		public virtual Category Category { get; set; }
 	}
 }
