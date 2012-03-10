@@ -61,7 +61,7 @@ test("Cancel", function () {
 test("Commit", function () {
     var category = {
         Name: "old name",
-        Rules: [{ Name: "old rule name" }]
+        Rules: [{ Name: "old rule name"}]
     };
     var vm = new App.ViewModels.CategoryViewModel(category);
 
@@ -80,14 +80,16 @@ test("Commit", function () {
         completeData = data;
     };
 
-    //set up a fake jQuery.post
+    //set up a fake post utility method
     var postUrl = null;
     var postData = null;
-    var postCallback = null;
-    jQuery.post = function (url, data, callback) {
+    var postSuccessCallback = null;
+    var postErrorCallback = null;
+    App.Utils.postJson = function (url, data, success, error) {
         postUrl = url;
         postData = data;
-        postCallback = callback;
+        postSuccessCallback = success;
+        postErrorCallback = error;
     };
 
     //call the commit with the fake callback
@@ -100,12 +102,12 @@ test("Commit", function () {
     equal(postData, category, "Should have passed the source data as post data");
     equal(null, completeData, "The complete callback should not be called until post completes");
 
-    //call the post success callback with 'true' and check that true was passed to complete callback
-    postCallback(true);
+    //call the post success callback and check that true was passed to complete callback
+    postSuccessCallback();
     equal(completeData, true, "The post data result should be passed back to complete callback");
 
-    //call the post success callback with 'false' and check that false was passed to complete callback
-    postCallback(false);
+    //call the post error callback and check that false was passed to complete callback
+    postErrorCallback();
     equal(completeData, false, "The post data result should be passed back to complete callback");
 });
 

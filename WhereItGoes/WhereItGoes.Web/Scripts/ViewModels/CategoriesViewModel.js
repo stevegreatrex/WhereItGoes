@@ -45,9 +45,12 @@
             }
 
             //post back to the server
-            $.post("savecategory", category, function (data) {
-                complete(data);
-            });
+            App.Utils.postJson("savecategory", category,
+                function() {
+                    complete(true); //succeeded
+                }, function () {
+                    complete(false); //failed
+                });
         };
 
         //undo any changes

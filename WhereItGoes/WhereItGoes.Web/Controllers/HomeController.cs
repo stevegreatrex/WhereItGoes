@@ -78,11 +78,7 @@ namespace WhereItGoes.Web.Controllers
 		[HttpPost]
 		public ActionResult SaveCategory(Category category)
 		{
-			var match = _db.Categories.FirstOrDefault(c => c.Id == category.Id);
-			if (match == null) return Json(false);
-
-			match.Name = category.Name;
-			match.Rules = category.Rules;
+			_db.Categories.AddOrUpdate(category);
 			_db.SaveChanges();
 
 			return Json(true);
