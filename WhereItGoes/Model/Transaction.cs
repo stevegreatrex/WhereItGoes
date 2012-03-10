@@ -10,6 +10,7 @@ namespace WhereItGoes.Model
 		public Guid Id { get; set; }
 		public double Value { get; set; }
 		public DateTime Date { get; set; }
-		public ICollection<Category> Categories { get; set; }
+		public string Description { get; set; }
+		public Category Category { get; set; }
 	}
 }

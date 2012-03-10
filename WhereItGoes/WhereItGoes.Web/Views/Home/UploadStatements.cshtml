@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Upload Statements - Where It Goes";
+    ViewBag.Scripts = new[] { 
+        "~/Scripts/jquery.form.js"
+    };
+}
+
+<h2>Upload Statements</h2>
+
+@using(Html.BeginForm("UploadStatement", "Home", FormMethod.Post, new { enctype = "multipart/form-data", id = "uploadform" }))
+{
+    <input type="file" name="file" id="file" />
+    <input type="submit" />
+}
+
+<script>
+    $(function () {
+        $("#uploadform").ajaxForm(function (data) {
+            
+        });
+    });
+</script>

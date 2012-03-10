@@ -20,6 +20,9 @@ namespace WhereItGoes.Data
 			modelBuilder.Entity<Category>()
 					.HasMany<Rule>(c => c.Rules)
 					.WithRequired(r => r.Result);
+
+			modelBuilder.Entity<Transaction>()
+					.HasOptional<Category>(t => t.Category);
 		}
 	}
 }

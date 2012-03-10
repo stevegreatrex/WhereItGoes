@@ -7,6 +7,8 @@ using System.Data.Entity.Migrations;
 using System.Web.Mvc;
 using WhereItGoes.Data;
 using WhereItGoes.Model;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace WhereItGoes.Web.Controllers
 {
@@ -26,10 +28,15 @@ namespace WhereItGoes.Web.Controllers
 			return View();
 		}
 
+		public ActionResult UploadStatements()
+		{
+			return View();
+		}
+
 		#endregion
 
-		#region Json
-		
+		#region Postbacks & Json
+
 		[HttpPost]
 		public ActionResult GetCategories()
 		{
@@ -96,7 +103,24 @@ namespace WhereItGoes.Web.Controllers
 			return Json(true);
 		}
 
+		[HttpPost]
+		public ActionResult UploadStatement(HttpPostedFileBase file)
+		{
+			var transactions = ReadTransactions(file.InputStream);
+			var categorised  = CategoriseTransactions(transactions).ToList();
+
+			foreach (var item in categorised)
+			{
+				_db.Transactions.Add(item);
+			}
+			_db.SaveChanges();
+
+			return Json(categorised);
+		}
+
 		#endregion
+
+		#region Protected & Private Members
 
 		protected override void Dispose(bool disposing)
 		{
@@ -107,5 +131,61 @@ namespace WhereItGoes.Web.Controllers
 				if (_db != null) _db.Dispose();
 			}
 		}
+
+		private IEnumerable<Transaction> CategoriseTransactions(IEnumerable<Transaction> transactions)
+		{
+			var rules = _db.Rules.ToList() //extra ToList here to prevent Linq-to-Entities problems
+							.Select(r => new
+							{
+								Rule = r,
+								Pattern = new Regex(r.Pattern)
+							}).ToList();
+
+			foreach (var transaction in transactions)
+			{
+				foreach (var rule in rules)
+				{
+					if (rule.Pattern.IsMatch(transaction.Description))
+					{
+						transaction.Category = rule.Rule.Result;
+						break;
+					}
+				}
+
+				yield return transaction;
+			}
+		}
+
+		private static IEnumerable<Transaction> ReadTransactions(Stream stream)
+		{
+			using (var reader = new StreamReader(stream))
+			{
+				var line = reader.ReadLine();
+				
+				//skip the first line - it contains headers
+				line = reader.ReadLine();
+
+				while (!reader.EndOfStream)
+				{
+					yield return ReadTransaction(line);
+					line = reader.ReadLine();
+				}
+			}
+		}
+
+		private static Transaction ReadTransaction(string line)
+		{
+			var segments = line.Split(',');
+
+			return new Transaction
+			{
+				Id          = Guid.NewGuid(),
+				Date        = DateTime.Parse(segments[0]),
+				Description = segments[2].TrimStart('"').TrimEnd('"'),
+				Value       = double.Parse(segments[3])
+			};
+		}
+
+		#endregion
 	}
 }
