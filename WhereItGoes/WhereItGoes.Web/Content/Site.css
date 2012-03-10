@@ -31,6 +31,13 @@
     color: Red;
 }
 
-.rules-container
+.rules-container h3
 {
+    margin: 10px 0 5px 0;
+}
+
+#page .rules-container li.rule
+{
+    padding: 0 0 0 10px;
+    background-color: #111;
 }

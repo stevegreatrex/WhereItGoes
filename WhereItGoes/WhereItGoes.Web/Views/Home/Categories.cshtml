@@ -9,6 +9,9 @@
 
 <h2>Manage Categories</h2>
 <ul data-bind="template: { name: 'category-template', foreach: categories }"></ul>
+<div data-bind="visible: categories().length == 0 && !loading()">
+    <span class="loading-marker">No Categories Defined</span>
+</div>
 <a href="#" data-bind="click: addCategory, visible: !loading()">Add Category</a>
 <span data-bind="if: loading" class="loading-marker">Loading...</span>
 
@@ -29,15 +32,18 @@
             <a href="#" class="list-editor-control" data-bind="click: edit, visible: !(editing() || saving() || error())">Edit</a>
         </div>
         <div data-bind="visible: editing" class="rules-container">
-            <ul data-bind="template: { name: 'rule-template', foreach: rules }">
-            </ul>
+            <h3>Rules</h3>
+            <ul data-bind="template: { name: 'rule-template', foreach: rules }, visible: rules().length > 0"></ul>
+            <div data-bind="visible: rules().length == 0">
+                <span class="loading-marker">No Rules Defined</span>
+            </div>
             <a href="#" data-bind="click: addRule, visible: !saving()">Add Rule</a>
         </div>
     </li>
 </script>
 
 <script type="text/html" id="rule-template">
-    <li data-bind="css: { removed: removed }">
+    <li data-bind="css: { removed: removed }" class="rule">
         <span data-bind="text: name"></span>
     </li>
 </script>
