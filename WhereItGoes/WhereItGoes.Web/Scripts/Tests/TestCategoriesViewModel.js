@@ -38,7 +38,7 @@ test("Rules Property Set", function () {
 });
 
 test("Cancel", function () {
-    var category = { Name: "old name" };
+    var category = { Name: "old name", Rules: [{ Name: "old rule"}] };
     var vm = new App.ViewModels.CategoryViewModel(category);
 
     //set the name on the view model
@@ -46,10 +46,16 @@ test("Cancel", function () {
     equal(vm.name(), "new name", "The name should be updated");
     equal(category.Name, "old name", "The category should not be updated yet");
 
+    //add a new rule and remove the old one
+    vm.rules.removeAll();
+    vm.rules.push({ Name: "new rule" });
+
     //cancel
     vm.cancel();
     equal(vm.name(), "old name", "The name change should be reversed");
     equal(category.Name, "old name", "The category should not be updated");
+    equal(vm.rules().length, 1, "Only one rule should be present");
+    equal(vm.rules()[0].name(), "old rule", "The new rule should have been removed and the old one added");
 });
 
 test("Commit", function () {
@@ -139,6 +145,38 @@ test("Remove", function () {
     //call the post success callback with 'false' and check that false was passed to complete callback
     postCallback(false);
     equal(completeData, false, "The post data result should be passed back to complete callback");
+});
+
+test("Add Rule", function () {
+    var category = { Name: "name" };
+    var vm = new App.ViewModels.CategoryViewModel(category);
+
+    //set up a fake post to the addrule method
+    var postUrl = null;
+    var postData = null;
+    var postCallback = null;
+    jQuery.post = function (url, data, callback) {
+        postUrl = url;
+        postData = data;
+        postCallback = callback;
+    };
+
+    //call the addRule method
+    vm.addRule();
+
+    //check that the post was called and that we are currently saving
+    equal(postUrl, "addrule", "Should have posted to the addrule method");
+    equal(postData, category, "The data posted back to the server should be the category");
+    equal(vm.saving(), true, "Should be saving whilst adding a rule");
+
+    //pass a new rule into the callback
+    var newRule = { Name: "new rule" };
+    postCallback(newRule);
+
+    //check that a new rule was added to the view model
+    equal(vm.rules().length, 1, "A new rule VM should have been added to the vm collection");
+    equal(vm.rules()[0].rule, newRule, "The rule VM should have been based on the returned rule");
+    equal(vm.saving(), false, "Should no longer be saving after post callback");
 });
 
 module("CategoriesViewModel Tests");

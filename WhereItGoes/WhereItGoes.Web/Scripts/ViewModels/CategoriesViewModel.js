@@ -22,12 +22,17 @@
         _self.name = ko.observable(category.Name);
         _self.rules = ko.observableArray();
 
-        if (category.Rules) {
-            for (var i = 0; i < category.Rules.length; i++) {
-                _self.rules.push(new App.ViewModels.RuleViewModel(category.Rules[i]));
+        //add rule view  models for any existing rules on the category
+        _self._setRuleVMsFromRule = function () {
+            _self.rules.removeAll();
+            if (category.Rules) {
+                for (var i = 0; i < category.Rules.length; i++) {
+                    _self.rules.push(new App.ViewModels.RuleViewModel(category.Rules[i]));
+                }
             }
-        }
+        };
 
+        //commit any changes to the server
         _self._commit = function (complete) {
 
             //update the original object
@@ -45,8 +50,10 @@
             });
         };
 
+        //undo any changes
         _self._cancel = function () {
             _self.name(category.Name);
+            _self._setRuleVMsFromRule();
         };
 
         _self._remove = function(complete) {
@@ -56,6 +63,16 @@
             });
         };
 
+        _self.addRule = function() {
+            _self.saving(true);
+
+            $.post("addrule", category, function(rule) {
+                _self.rules.push(new App.ViewModels.RuleViewModel(rule));
+                _self.saving(false);
+            });
+        };
+
+        _self._setRuleVMsFromRule();
         return _self;
     };
 

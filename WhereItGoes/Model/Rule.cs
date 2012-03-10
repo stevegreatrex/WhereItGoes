@@ -5,11 +5,11 @@ using System.Text;
 
 namespace WhereItGoes.Model
 {
-	public class Rule
+	public partial class Rule
 	{
 		public Guid Id { get; set; }
 		public string Name { get; set; }
 		public string Pattern { get; set; }
-		public Category Result { get; set; }
+		public virtual Category Result { get; set; }
 	}
 }

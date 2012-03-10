@@ -52,6 +52,30 @@ namespace WhereItGoes.Web.Controllers
 		}
 
 		[HttpPost]
+		public ActionResult AddRule(Category category)
+		{
+			var match = _db.Categories.First(c => c.Id == category.Id);
+			var rule = new Rule
+			{
+				Id = Guid.NewGuid(),
+				Name = "New Rule",
+				Pattern = "^[a-zA-Z0-9]*$",
+				Result = match
+			};
+
+			if (match.Rules == null) match.Rules = new List<Rule>();
+
+			match.Rules.Add(rule);
+			_db.SaveChanges();
+
+			//note: must remove reference to category from rule here as it would
+			//cause a circular reference which cannot be returned using Json
+			rule.Result = null;
+
+			return Json(rule);
+		}
+
+		[HttpPost]
 		public ActionResult SaveCategory(Category category)
 		{
 			var match = _db.Categories.FirstOrDefault(c => c.Id == category.Id);
