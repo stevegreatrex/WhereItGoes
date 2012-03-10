@@ -19,7 +19,8 @@ namespace WhereItGoes.Data
 			
 			modelBuilder.Entity<Category>()
 					.HasMany<Rule>(c => c.Rules)
-					.WithRequired(r => r.Result);
+					.WithRequired(r => r.Result)
+					.WillCascadeOnDelete();
 
 			modelBuilder.Entity<Transaction>()
 					.HasOptional<Category>(t => t.Category);

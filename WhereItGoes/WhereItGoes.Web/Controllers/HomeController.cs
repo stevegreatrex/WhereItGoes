@@ -9,6 +9,7 @@ using WhereItGoes.Data;
 using WhereItGoes.Model;
 using System.IO;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 
 namespace WhereItGoes.Web.Controllers
 {
@@ -40,7 +41,7 @@ namespace WhereItGoes.Web.Controllers
 		[HttpPost]
 		public ActionResult GetCategories()
 		{
-			return Json(_db.Categories.OrderBy(c => c.Name).ToList());
+			return SafeJson(_db.Categories.OrderBy(c => c.Name).ToList());
 		}
 
 		[HttpPost]
@@ -55,7 +56,7 @@ namespace WhereItGoes.Web.Controllers
 			_db.Categories.Add(category);
 			_db.SaveChanges();
 
-			return Json(category);
+			return SafeJson(category);
 		}
 
 		[HttpPost]
@@ -75,11 +76,7 @@ namespace WhereItGoes.Web.Controllers
 			match.Rules.Add(rule);
 			_db.SaveChanges();
 
-			//note: must remove reference to category from rule here as it would
-			//cause a circular reference which cannot be returned using Json
-			rule.Result = null;
-
-			return Json(rule);
+			return SafeJson(rule);
 		}
 
 		[HttpPost]
@@ -88,19 +85,19 @@ namespace WhereItGoes.Web.Controllers
 			_db.Categories.AddOrUpdate(category);
 			_db.SaveChanges();
 
-			return Json(true);
+			return SafeJson(true);
 		}
 
 		[HttpPost]
 		public ActionResult RemoveCategory(Category category)
 		{
 			var match = _db.Categories.FirstOrDefault(c => c.Id == category.Id);
-			if (match == null) return Json(false);
+			if (match == null) return SafeJson(false);
 
 			_db.Categories.Remove(match);
 			_db.SaveChanges();
 
-			return Json(true);
+			return SafeJson(true);
 		}
 
 		[HttpPost]
@@ -115,12 +112,20 @@ namespace WhereItGoes.Web.Controllers
 			}
 			_db.SaveChanges();
 
-			return Json(categorised);
+			return SafeJson(categorised);
 		}
 
 		#endregion
 
 		#region Protected & Private Members
+
+		private ActionResult SafeJson(object data)
+		{
+			var result        = new JsonNetResult();
+			result.Formatting = Formatting.Indented;
+			result.Data       = data;
+			return result;
+		}
 
 		protected override void Dispose(bool disposing)
 		{

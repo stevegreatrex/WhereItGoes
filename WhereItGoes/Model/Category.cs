@@ -11,6 +11,6 @@ namespace WhereItGoes.Model
 
 		public Guid Id { get; set; }
 
-		public ICollection<Rule> Rules { get; set; }
+		public virtual ICollection<Rule> Rules { get; set; }
 	}
 }
