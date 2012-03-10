@@ -1,18 +1,22 @@
 ﻿(function (App) {
     App.ViewModels.RuleViewModel = function (rule) {
-        App.ViewModels.EditableViewModelBase.apply(this);
         var _self = this;
         _self.name = ko.observable(rule.Name);
+        _self.pattern = ko.observable(rule.Pattern);
         _self.rule = rule;
 
-        _self.updateRule = function () {
+        _self.commit = function () {
             _self.rule.Name = _self.name();
+            _self.rule.Pattern = _self.pattern();
+        };
+
+        _self.cancel = function () {
+            _self.name(rule.Name);
+            _self.pattern(rule.Pattern);
         };
 
         return _self;
     };
-
-    App.Utils.inheritsFrom(App.ViewModels.RuleViewModel, App.ViewModels.EditableViewModelBase);
 })(App);
 
 (function (App) {
@@ -40,7 +44,7 @@
             category.Rules = [];
             for (var i = 0; i < _self.rules().length; i++) {
                 var ruleVM = _self.rules()[i];
-                ruleVM.updateRule();
+                ruleVM.commit();
                 category.Rules.push(ruleVM.rule);
             }
 

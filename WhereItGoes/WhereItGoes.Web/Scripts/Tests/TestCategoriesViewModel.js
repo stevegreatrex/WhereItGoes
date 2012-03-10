@@ -1,17 +1,61 @@
 ﻿module("RuleViewModel Tests");
 
-test("Name Property Set", function () {
-    var rule = { Name: "a name" };
+test("Initial Properties Set", function () {
+    var rule = {
+        Name: "a name",
+        Pattern: "a pattern"
+    };
     var vm = new App.ViewModels.RuleViewModel(rule);
 
     equal(vm.name(), rule.Name, "The name property should be set to the passed in value");
+    equal(vm.rule, rule, "The rule parameter should be exposed as an object property");
+    equal(vm.pattern(), rule.Pattern, "The pattern property should be set to the passed in value");
 });
 
-test("Rule Property Set", function () {
-    var rule = { Name: "a name" };
+test("Commit", function () {
+    var rule = {
+        Name: "old name",
+        Pattern: "old pattern"
+    };
     var vm = new App.ViewModels.RuleViewModel(rule);
 
-    equal(vm.rule, rule, "The rule parameter should be exposed as an object property");
+    //update the view model properties
+    vm.name("new name");
+    vm.pattern("new pattern");
+
+    //check that the rule has not yet been updated
+    equal(rule.Name, "old name", "The rule should not have been updated yet");
+    equal(rule.Pattern, "old pattern", "The rule should not have been updated yet");
+
+    //now call the update
+    vm.commit();
+
+    //check that the rule has now been updated
+    equal(rule.Name, "new name", "The rule should have been updated");
+    equal(rule.Pattern, "new pattern", "The rule should have been updated");
+});
+
+test("Cancel", function () {
+    var rule = {
+        Name: "old name",
+        Pattern: "old pattern"
+    };
+    var vm = new App.ViewModels.RuleViewModel(rule);
+
+    //update the view model properties
+    vm.name("new name");
+    vm.pattern("new pattern");
+
+    //check that the rule has not yet been updated
+    equal(rule.Name, "old name", "The rule should not have been updated yet");
+    equal(rule.Pattern, "old pattern", "The rule should not have been updated yet");
+
+    //now call cancel
+    vm.cancel();
+
+    //check that the rule has now been updated
+    equal(vm.name(), "old name", "The VM should have been updated");
+    equal(vm.pattern(), "old pattern", "The VM should have been updated");
 });
 
 module("CategoryViewModel Tests");
@@ -38,7 +82,13 @@ test("Rules Property Set", function () {
 });
 
 test("Cancel", function () {
-    var category = { Name: "old name", Rules: [{ Name: "old rule"}] };
+    var category = {
+        Name: "old name",
+        Rules: [
+            { Name: "old rule", Pattern: "old pattern" },
+            { Name: "to edit", Pattern: "to edit" },
+        ]
+    };
     var vm = new App.ViewModels.CategoryViewModel(category);
 
     //set the name on the view model
@@ -46,16 +96,24 @@ test("Cancel", function () {
     equal(vm.name(), "new name", "The name should be updated");
     equal(category.Name, "old name", "The category should not be updated yet");
 
-    //add a new rule and remove the old one
-    vm.rules.removeAll();
-    vm.rules.push({ Name: "new rule" });
+    //edit rules (add, remove, update)
+    var newRule = new App.ViewModels.RuleViewModel({ Name: "new rule" });
+    vm.rules.remove(vm.rules()[0]);
+    vm.rules()[0].name("edited name");
+    vm.rules()[0].name("edited pattern");
+    vm.rules.push(newRule);
 
     //cancel
     vm.cancel();
     equal(vm.name(), "old name", "The name change should be reversed");
     equal(category.Name, "old name", "The category should not be updated");
-    equal(vm.rules().length, 1, "Only one rule should be present");
-    equal(vm.rules()[0].name(), "old rule", "The new rule should have been removed and the old one added");
+
+    //check the changes to rules were rolled back
+    equal(vm.rules().length, 2, "Original 2 rules should be present");
+    equal(vm.rules()[0].name(), "old rule", "The old rule should still remain");
+    equal(vm.rules()[0].pattern(), "old pattern", "The old rule should still remain");
+    equal(vm.rules()[1].name(), "to edit", "The edited rule should have reverted it's changes");
+    equal(vm.rules()[1].pattern(), "to edit", "The edited rule should have reverted it's changes");
 });
 
 test("Commit", function () {
@@ -97,7 +155,12 @@ test("Commit", function () {
 
     //check that post has been called, that the category has been updated and that the complete
     //callback has not been called
-    deepEqual(category, { Name: "new name", Rules: [{ Name: "new rule name" }, { Name: "new rule"}] }, "The source data should have been updated");
+    deepEqual(category, {
+        Name: "new name",
+        Rules: [
+            { Name: "new rule name", Pattern: undefined },
+            { Name: "new rule", Pattern: undefined }]
+        }, "The source data should have been updated");
     equal(postUrl, "savecategory", "Should have posted to the savecategory method");
     equal(postData, category, "Should have passed the source data as post data");
     equal(null, completeData, "The complete callback should not be called until post completes");

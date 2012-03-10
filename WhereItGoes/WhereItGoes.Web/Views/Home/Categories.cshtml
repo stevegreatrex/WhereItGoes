@@ -17,7 +17,10 @@
 
 <script type="text/html" id="category-template">
     <li data-bind="css: { removed: removed }">
-        <span data-bind="text: name, visible: !editing()"></span>
+        <div data-bind="visible: !editing()" class="inline">
+            <span data-bind="text: name"></span>
+            (<span data-bind="text: rules().length"></span>)
+        </div>
         <form data-bind="submit: commit, visible: editing">
             <input data-bind="value: name"></input>
             <div data-bind="visible: !saving()" class="list-editor-control-container">
@@ -32,7 +35,6 @@
             <a href="#" class="list-editor-control" data-bind="click: edit, visible: !(editing() || saving() || error())">Edit</a>
         </div>
         <div data-bind="visible: editing" class="rules-container">
-            <h3>Rules</h3>
             <ul data-bind="template: { name: 'rule-template', foreach: rules }, visible: rules().length > 0"></ul>
             <div data-bind="visible: rules().length == 0">
                 <span class="loading-marker">No Rules Defined</span>
@@ -43,7 +45,8 @@
 </script>
 
 <script type="text/html" id="rule-template">
-    <li data-bind="css: { removed: removed }" class="rule">
-        <span data-bind="text: name"></span>
+    <li class="rule">
+        <input data-bind="value: name"></input>
+        Pattern: <input data-bind="value: pattern"></input>
     </li>
 </script>
