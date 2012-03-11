@@ -72,6 +72,9 @@
     </Compile>
     <Compile Include="JsonNetResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Content\jquery.jqplot.min.css" />
+    <Content Include="Scripts\jquery.jqplot.min.js" />
+    <Content Include="Scripts\plugins\jqplot.pieRenderer.min.js" />
     <Content Include="Scripts\Tests\TestUploadStatementsViewModel.js" />
   </ItemGroup>
   <ItemGroup>
@@ -126,6 +129,7 @@
     <Content Include="Scripts\qunit.js" />
     <Content Include="Scripts\Tests\TestCategoriesViewModel.js" />
     <Content Include="Scripts\Tests\TestEditableViewModelBase.js" />
+    <Content Include="Scripts\ViewModels\AnalysisResultsViewModel.js" />
     <Content Include="Scripts\ViewModels\CategoriesViewModel.js" />
     <Content Include="Scripts\ViewModels\EditableViewModelBase.js" />
     <Content Include="Scripts\ViewModels\HomeViewModel.js" />

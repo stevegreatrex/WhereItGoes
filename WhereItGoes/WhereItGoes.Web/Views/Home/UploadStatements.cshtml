@@ -2,6 +2,9 @@
     ViewBag.Title = "Upload Statements - Where It Goes";
     ViewBag.Scripts = new[] { 
         "~/Scripts/jquery.form.js",
+        "~/Scripts/jquery.jqplot.min.js",
+        "~/Scripts/plugins/jqplot.pieRenderer.min.js",
+        "~/Scripts/ViewModels/AnalysisResultsViewModel.js",
         "~/Scripts/ViewModels/UploadStatementsViewModel.js"
     };
 }
@@ -15,3 +18,5 @@
     <span data-bind="visible: processing" class="loading-marker">Processing file...</span>
     <span data-bind="visible: error">Could not upload file</span>
 }
+
+<div id="results" style="height:400px;width:800px"></div>
