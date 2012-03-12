@@ -76,6 +76,7 @@
     <Content Include="Scripts\jquery.jqplot.min.js" />
     <Content Include="Scripts\plugins\jqplot.pieRenderer.min.js" />
     <Content Include="Scripts\Tests\TestAnalysisResultsViewModel.js" />
+    <Content Include="Scripts\Tests\TestHomeViewModel.js" />
     <Content Include="Scripts\Tests\TestUploadStatementsViewModel.js" />
   </ItemGroup>
   <ItemGroup>

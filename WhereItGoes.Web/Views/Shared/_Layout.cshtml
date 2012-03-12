@@ -42,3 +42,8 @@
 { 
     <script src="@Url.Content(script)" type="text/javascript"></script>
 }
+
+@foreach (string style in ViewBag.Styles ?? new string[0])
+{ 
+    <link href="@Url.Content(style)" rel="stylesheet" type="text/css" />
+}
