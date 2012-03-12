@@ -35,9 +35,13 @@ test("Plots Results", function () {
     //call the function
     var data = {
         Transactions: [],
-        Expenditure: [["Category", 1], ["Category2", 2]]
+        Expenditure: [["Category", 1], ["Category2", 2]],
+        TotalExpenditure: 45.67
     };
     var vm = new App.ViewModels.AnalysisResultsViewModel("resultsDiv", data);
+
+    //check properties were set
+    equal(vm.totalExpenditure(), 45.67, "TotalExpenditure should have been set on the model");
 
     //check that jqplot was called
     equal(plotResultsId, "resultsDiv", "The results div should have been passed to jqplot");

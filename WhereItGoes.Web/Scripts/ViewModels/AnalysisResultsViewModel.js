@@ -1,9 +1,9 @@
 ﻿(function (App) {
     App.ViewModels.TransactionViewModel = function (transaction) {
-        var _self         = {};
+        var _self = {};
         _self.description = ko.observable(transaction.Description);
-        _self.value       = ko.observable(transaction.Value);
-        _self.category    = ko.observable(transaction.Category ? transaction.Category.Name : "Unknown");
+        _self.value = ko.observable(transaction.Value);
+        _self.category = ko.observable(transaction.Category ? transaction.Category.Name : "Unknown");
 
         return _self;
     };
@@ -11,6 +11,7 @@
     App.ViewModels.AnalysisResultsViewModel = function (resultsDivId, data) {
         var _self = {};
         _self.transactions = ko.observableArray();
+        _self.totalExpenditure = ko.observable(data.TotalExpenditure);
 
         //populate transactions
         for (var i = 0; i < data.Transactions.length; i++) {

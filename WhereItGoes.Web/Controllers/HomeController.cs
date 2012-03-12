@@ -233,7 +233,9 @@ namespace WhereItGoes.Web.Controllers
 			foreach (var summary in transactions.Where(t => t.Value <= 0).GroupBy(t => t.Category))
 			{
 				var category = summary.Key ?? Category.Unknown;
-				result.Expenditure.Add(new object[] { category.Name, summary.Sum(s => s.Value) });
+				var total = summary.Sum(s => s.Value);
+				result.TotalExpenditure -= total;
+				result.Expenditure.Add(new object[] { string.Format("{0} ({1:c})", category.Name, Math.Abs(total)), total });
 			}
 			return result;
 		}

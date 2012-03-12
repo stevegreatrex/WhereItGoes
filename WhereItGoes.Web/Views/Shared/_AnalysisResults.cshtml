@@ -1,4 +1,5 @@
-﻿<div id="results"></div>
+﻿<h3 data-bind="visible: results">Total Spent: £<span data-bind="text: results() ? results().totalExpenditure : null"></span></h3>
+<div id="results"></div>
 <div id="all-transactions-container">
     <table id="transactions-table">
         <thead data-bind="visible: results()">

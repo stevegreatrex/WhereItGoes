@@ -14,6 +14,7 @@ namespace WhereItGoes.Model
 		}
 
 		public List<object[]> Expenditure { get; private set; }
+		public double TotalExpenditure { get; set; }
 
 		public ICollection<Transaction> Transactions { get; private set; }
 	}
