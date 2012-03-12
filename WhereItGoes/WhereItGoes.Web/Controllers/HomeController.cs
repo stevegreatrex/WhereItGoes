@@ -44,10 +44,13 @@ namespace WhereItGoes.Web.Controllers
 			var result = new AnalysisResult();
 			var transactions = _db.Transactions.Where(t => t.Date >= from && t.Date <= to);
 			foreach (var transaction in transactions)
-				result.AllTransactions.Add(transaction);
+				result.Transactions.Add(transaction);
 
 			foreach (var summary in transactions.GroupBy(t => t.Category))
-				result.CategoryCounts.Add(summary.Key ?? Category.Unknown, summary.Count());
+			{ 
+				var category = summary.Key ?? Category.Unknown;
+				result.CategoryCounts.Add(new object[] { category.Name, summary.Count() });
+			}
 
 			return SafeJson(result);
 		}

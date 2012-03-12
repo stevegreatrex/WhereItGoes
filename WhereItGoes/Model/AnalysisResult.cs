@@ -9,12 +9,12 @@ namespace WhereItGoes.Model
 	{
 		public AnalysisResult()
 		{
-			this.CategoryCounts  = new Dictionary<Category,int>();
-			this.AllTransactions = new List<Transaction>();
+			this.CategoryCounts  = new List<object[]>();
+			this.Transactions = new List<Transaction>();
 		}
 
-		public Dictionary<Category, int> CategoryCounts { get; private set; }
+		public List<object[]> CategoryCounts { get; private set; }
 
-		public ICollection<Transaction> AllTransactions { get; private set; }
+		public ICollection<Transaction> Transactions { get; private set; }
 	}
 }
