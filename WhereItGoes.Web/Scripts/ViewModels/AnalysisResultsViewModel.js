@@ -17,7 +17,7 @@
         }
 
         //plot graph
-        $.jqplot(resultsDivId, [data.CategoryCounts], {
+        $.jqplot(resultsDivId, [data.Expenditure], {
             seriesDefaults: {
                 renderer: $.jqplot.PieRenderer,
                 rendererOptions: {

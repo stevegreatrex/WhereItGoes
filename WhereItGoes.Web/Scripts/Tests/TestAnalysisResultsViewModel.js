@@ -28,13 +28,13 @@ test("Plots Results", function () {
     //call the function
     var data = {
         Transactions: [],
-        CategoryCounts: [["Category", 1], ["Category2", 2]]
+        Expenditure: [["Category", 1], ["Category2", 2]]
     };
     var vm = new App.ViewModels.AnalysisResultsViewModel("resultsDiv", data);
 
     //check that jqplot was called
     equal(plotResultsId, "resultsDiv", "The results div should have been passed to jqplot");
-    deepEqual(plotData, [data.CategoryCounts], "The category counts should have been passed to jqplot");
+    deepEqual(plotData, [data.Expenditure], "The category counts should have been passed to jqplot");
 
     //check the options
     var expectedOptions = {
@@ -62,7 +62,7 @@ test("Displays Transactions", function () {
             { Name: "Transaction1", Value: 123.0 },
             { Name: "Transaction2", Value: -456.0 }
         ],
-        CategoryCounts: [["Category", 1], ["Category2", 2]]
+        Expenditure: [["Category", 1], ["Category2", 2]]
     };
     var vm = new App.ViewModels.AnalysisResultsViewModel("resultsDiv", data);
 

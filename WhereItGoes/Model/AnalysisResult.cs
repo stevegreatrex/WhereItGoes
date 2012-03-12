@@ -9,11 +9,11 @@ namespace WhereItGoes.Model
 	{
 		public AnalysisResult()
 		{
-			this.CategoryCounts  = new List<object[]>();
+			this.Expenditure  = new List<object[]>();
 			this.Transactions = new List<Transaction>();
 		}
 
-		public List<object[]> CategoryCounts { get; private set; }
+		public List<object[]> Expenditure { get; private set; }
 
 		public ICollection<Transaction> Transactions { get; private set; }
 	}

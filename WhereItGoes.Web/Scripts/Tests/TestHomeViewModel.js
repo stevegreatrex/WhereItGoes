@@ -5,7 +5,7 @@ test("Properties set", function () {
     var fakeVM = {};
     App.ViewModels.AnalysisResultsViewModel = function () { return fakeVM; };
     var data = {
-        CategoryCounts: [],
+        Expenditure: [],
         Transactions: []
     };
     App.Utils.postJson = function (a, b, callback) {

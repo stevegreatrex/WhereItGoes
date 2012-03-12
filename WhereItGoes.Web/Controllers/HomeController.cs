@@ -46,10 +46,10 @@ namespace WhereItGoes.Web.Controllers
 			foreach (var transaction in transactions)
 				result.Transactions.Add(transaction);
 
-			foreach (var summary in transactions.GroupBy(t => t.Category))
+			foreach (var summary in transactions.Where(t => t.Value <= 0).GroupBy(t => t.Category))
 			{ 
 				var category = summary.Key ?? Category.Unknown;
-				result.CategoryCounts.Add(new object[] { category.Name, summary.Count() });
+				result.Expenditure.Add(new object[] { category.Name, summary.Sum(s => s.Value) });
 			}
 
 			return SafeJson(result);
