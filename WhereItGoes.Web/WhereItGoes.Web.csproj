@@ -166,11 +166,11 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\WhereItGoes.Data\WhereItGoes.Data.csproj">
+    <ProjectReference Include="..\WhereItGoes.Data\WhereItGoes.Data.csproj">
       <Project>{7B06BEC8-4751-47AC-B333-6324579F0AEE}</Project>
       <Name>WhereItGoes.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WhereItGoes.csproj">
+    <ProjectReference Include="..\WhereItGoes\WhereItGoes.csproj">
       <Project>{9D9A938D-4C85-40B7-8010-6E6A28EA2E5D}</Project>
       <Name>WhereItGoes</Name>
     </ProjectReference>

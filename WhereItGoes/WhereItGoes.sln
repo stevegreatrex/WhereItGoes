@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhereItGoes", "WhereItGoes.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhereItGoes.Data", "..\WhereItGoes.Data\WhereItGoes.Data.csproj", "{7B06BEC8-4751-47AC-B333-6324579F0AEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhereItGoes.Web", "WhereItGoes.Web\WhereItGoes.Web.csproj", "{92640144-0AD2-4AA9-A0E8-E7ED0ADF22F8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhereItGoes.Web", "..\WhereItGoes.Web\WhereItGoes.Web.csproj", "{92640144-0AD2-4AA9-A0E8-E7ED0ADF22F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
