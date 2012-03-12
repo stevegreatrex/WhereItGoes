@@ -6,15 +6,23 @@
         _self.loading = ko.observable(false);
         _self.results = ko.observable();
 
-        _self.refreshResults = function () {
+        var _getResults = function (url) {
             _self.loading(true);
             var filter = { from: _self.fromDate(), to: _self.toDate() };
 
-            App.Utils.postJson("/home/analyse", filter, function (results) {
+            App.Utils.postJson(url, filter, function (results) {
                 _self.loading(false);
                 var resultsVm = new App.ViewModels.AnalysisResultsViewModel("results", results);
                 _self.results(resultsVm);
             });
+        };
+
+        _self.refreshResults = function () {
+           _getResults("/home/analyse");
+        };
+
+        _self.recategoriseAll = function () {
+            _getResults("/home/recategoriseall");
         };
 
         _self.refreshResults();

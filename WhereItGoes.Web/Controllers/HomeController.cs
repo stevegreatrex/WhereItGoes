@@ -48,9 +48,10 @@ namespace WhereItGoes.Web.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult RecategoriseAll()
+		public ActionResult RecategoriseAll(DateTime from, DateTime to)
 		{
-			var recategorised = CategoriseTransactions(_db.Transactions).ToList();
+			var recategorised = CategoriseTransactions(_db.Transactions.Where(t => t.Date >= from && t.Date <= to)).ToList();
+			_db.SaveChanges();
 			var result = BuildResults(recategorised);
 			return SafeJson(result);
 		}
@@ -119,6 +120,12 @@ namespace WhereItGoes.Web.Controllers
 		{
 			var match = _db.Categories.FirstOrDefault(c => c.Id == category.Id);
 			if (match == null) return SafeJson(false);
+
+			foreach (var transaction in _db.Transactions)
+			{
+				if (transaction.Category == match)
+					transaction.Category = null;
+			}
 
 			_db.Categories.Remove(match);
 			_db.SaveChanges();

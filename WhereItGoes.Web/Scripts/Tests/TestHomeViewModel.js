@@ -38,6 +38,39 @@ test("RefreshResults", function () {
 
     //check that we are still loading and that the post was called
     equal(postUrl, "/home/analyse", "Should have posted to the analyse method");
+    checkGetResultsValues(vm, postFilter, postCallback);
+});
+
+test("RecategoriseAll", function () {
+    //set up a fake post method for the constructor
+    var fakeVM = {};
+    App.ViewModels.AnalysisResultsViewModel = function () { return fakeVM; };
+    App.Utils.postJson = function (a, b, callback) {
+        callback();
+    };
+
+    //create vm
+    var vm = new App.ViewModels.HomeViewModel();
+
+    //set the fake jquery post
+    var postUrl = null;
+    var postFilter = null;
+    var postCallback = null;
+    App.Utils.postJson = function (url, filter, callback) {
+        postUrl = url;
+        postFilter = filter;
+        postCallback = callback;
+    };
+
+    //call recategoriseAll
+    vm.recategoriseAll();
+
+    //check that we are loading and that the post has been called
+    equal(postUrl, "/home/recategoriseall", "Should have posted to the recategoriseall method");
+    checkGetResultsValues(vm, postFilter, postCallback);
+});
+
+var checkGetResultsValues = function (vm, postFilter, postCallback) {
     equal(vm.loading(), true, "Should be loading as post callback has not been called");
     var expectedFilter = {
         from: vm.fromDate(),
@@ -62,4 +95,4 @@ test("RefreshResults", function () {
     equal(vmDivId, "results", "Should have passed the ID 'results' to the VM constructor");
     equal(vmResults, results, "Should have passed the callback results to the VM constructor");
     equal(vm.results(), fakeVM, "The results property should have been set");
-});
+};
