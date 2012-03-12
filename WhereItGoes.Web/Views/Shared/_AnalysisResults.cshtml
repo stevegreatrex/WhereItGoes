@@ -1,9 +1,10 @@
 ﻿<div id="results"></div>
 <div id="all-transactions-container">
-    <table>
-        <thead>
+    <table id="transactions-table">
+        <thead data-bind="visible: results()">
             <tr>
                 <td>Description</td>
+                <td>Category</td>
                 <td>Value</td>
             </tr>
         </thead>
@@ -16,6 +17,9 @@
     <tr>
         <td>
             <span data-bind="text: description"></span>
+        </td>
+        <td>
+            <span data-bind="text: category"></span>
         </td>
         <td>
             <span data-bind="text: value"></span>

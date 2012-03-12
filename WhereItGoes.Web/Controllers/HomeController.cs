@@ -41,17 +41,17 @@ namespace WhereItGoes.Web.Controllers
 		[HttpPost]
 		public ActionResult Analyse(DateTime from, DateTime to)
 		{
-			var result = new AnalysisResult();
 			var transactions = _db.Transactions.Where(t => t.Date >= from && t.Date <= to);
-			foreach (var transaction in transactions)
-				result.Transactions.Add(transaction);
+			var result = BuildResults(transactions);
 
-			foreach (var summary in transactions.Where(t => t.Value <= 0).GroupBy(t => t.Category))
-			{ 
-				var category = summary.Key ?? Category.Unknown;
-				result.Expenditure.Add(new object[] { category.Name, summary.Sum(s => s.Value) });
-			}
+			return SafeJson(result);
+		}
 
+		[HttpPost]
+		public ActionResult RecategoriseAll()
+		{
+			var recategorised = CategoriseTransactions(_db.Transactions).ToList();
+			var result = BuildResults(recategorised);
 			return SafeJson(result);
 		}
 
@@ -215,6 +215,20 @@ namespace WhereItGoes.Web.Controllers
 				Description = segments[2].TrimStart('"').TrimEnd('"'),
 				Value       = double.Parse(segments[3])
 			};
+		}
+
+		private static AnalysisResult BuildResults(IEnumerable<Transaction> transactions)
+		{
+			var result = new AnalysisResult();
+			foreach (var transaction in transactions)
+				result.Transactions.Add(transaction);
+
+			foreach (var summary in transactions.Where(t => t.Value <= 0).GroupBy(t => t.Category))
+			{
+				var category = summary.Key ?? Category.Unknown;
+				result.Expenditure.Add(new object[] { category.Name, summary.Sum(s => s.Value) });
+			}
+			return result;
 		}
 
 		#endregion
