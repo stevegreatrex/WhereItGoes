@@ -1,6 +1,13 @@
 ﻿@{
     ViewBag.Title = "Where It Goes";
-    ViewBag.Scripts = new [] { "~/Scripts/ViewModels/HomeViewModel.js" };
+    ViewBag.Scripts = new [] { 
+        "~/Scripts/jquery.jqplot.min.js",
+        "~/Scripts/plugins/jqplot.pieRenderer.min.js",
+        "~/Scripts/ViewModels/AnalysisResultsViewModel.js",
+        "~/Scripts/ViewModels/HomeViewModel.js"
+    };
 }
 
-<span data-bind="text: message"></span>
+<div id="results">
+    <span class="loading-marker" data-bind="visible: loading">Loading Results...</span>
+</div>

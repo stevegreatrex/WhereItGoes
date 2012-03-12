@@ -1,12 +1,21 @@
 ﻿(function (App) {
     App.ViewModels.HomeViewModel = function () {
         var _self = {};
-        _self.message = ko.observable("Find out where it goes...");
+        _self.toDate = ko.observable(new Date());
+        _self.fromDate = ko.observable(new Date(_self.toDate() - 1000 * 60 * 60 * 24 * 365)); //1 year ago
+        _self.loading = ko.observable(false);
 
-        var data = { from: new Date(1, 1, 2001), to: new Date() };
-        App.Utils.postJson("home/analyse", data, function (results) {
-            //alert(JSON.stringify(results));
-        });
+        _self.refreshResults = function () {
+            _self.loading(true);
+            var filter = { from: _self.fromDate(), to: _self.toDate() };
+
+            App.Utils.postJson("/home/analyse", filter, function (results) {
+                _self.loading(false);
+                new App.ViewModels.AnalysisResultsViewModel("results", results);                
+            });
+        };
+
+        _self.refreshResults();
 
         return _self;
     };
