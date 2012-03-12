@@ -1,0 +1,24 @@
+﻿<div id="results"></div>
+<div id="all-transactions-container">
+    <table>
+        <thead>
+            <tr>
+                <td>Description</td>
+                <td>Value</td>
+            </tr>
+        </thead>
+        <tbody data-bind="template: { name: 'transaction-template', foreach: results() ? results().transactions : null }">
+        </tbody>
+    </table>
+</div>
+
+<script type="text/html" id="transaction-template">
+    <tr>
+        <td>
+            <span data-bind="text: description"></span>
+        </td>
+        <td>
+            <span data-bind="text: value"></span>
+        </td>
+    </tr>
+</script>

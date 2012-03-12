@@ -4,6 +4,7 @@
         _self.toDate = ko.observable(new Date());
         _self.fromDate = ko.observable(new Date(_self.toDate() - 1000 * 60 * 60 * 24 * 365)); //1 year ago
         _self.loading = ko.observable(false);
+        _self.results = ko.observable();
 
         _self.refreshResults = function () {
             _self.loading(true);
@@ -11,7 +12,8 @@
 
             App.Utils.postJson("/home/analyse", filter, function (results) {
                 _self.loading(false);
-                new App.ViewModels.AnalysisResultsViewModel("results", results);                
+                var resultsVm = new App.ViewModels.AnalysisResultsViewModel("results", results);
+                _self.results(resultsVm);
             });
         };
 

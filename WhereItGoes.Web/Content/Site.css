@@ -52,3 +52,9 @@ div#results
     width: 100%;
     height: 400px;
 }
+
+div#all-transactions-container
+{
+    max-height: 400px;
+    overflow: auto;
+}

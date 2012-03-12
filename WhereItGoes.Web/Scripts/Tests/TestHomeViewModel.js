@@ -2,7 +2,8 @@
 
 test("Properties set", function () {
     //set up a fake post method and vm constructor
-    App.ViewModels.AnalysisResultsViewModel = function () { };
+    var fakeVM = {};
+    App.ViewModels.AnalysisResultsViewModel = function () { return fakeVM; };
     var data = {
         CategoryCounts: [],
         Transactions: []
@@ -16,8 +17,9 @@ test("Properties set", function () {
 
     //check properties
     var dateDiff = vm.toDate() - vm.fromDate();
-    equal(dateDiff, 365*24*60*60*1000, "From Date should have been set to a year ago");
+    equal(dateDiff, 365 * 24 * 60 * 60 * 1000, "From Date should have been set to a year ago");
     equal(vm.loading(), false, "Should not be loading");
+    equal(vm.results(), fakeVM, "Results should be the fake VM");
 });
 
 test("RefreshResults", function () {
@@ -29,7 +31,7 @@ test("RefreshResults", function () {
         postUrl = url;
         postFilter = filter;
         postCallback = callback;
-    };    
+    };
 
     //create vm, which calls the refresh
     var vm = new App.ViewModels.HomeViewModel();
@@ -46,9 +48,11 @@ test("RefreshResults", function () {
     //create a fake AnalysisVM constructor
     var vmDivId = null;
     var vmResults = null;
-    App.ViewModels.AnalysisResultsViewModel = function(divId, results){
+    var fakeVM = {};
+    App.ViewModels.AnalysisResultsViewModel = function (divId, results) {
         vmDivId = divId;
         vmResults = results;
+        return fakeVM;
     };
 
     //call the callback, check that the vm was created and that loading was done
@@ -57,5 +61,5 @@ test("RefreshResults", function () {
     equal(vm.loading(), false, "Should no longer be loading");
     equal(vmDivId, "results", "Should have passed the ID 'results' to the VM constructor");
     equal(vmResults, results, "Should have passed the callback results to the VM constructor");
-
+    equal(vm.results(), fakeVM, "The results property should have been set");
 });
