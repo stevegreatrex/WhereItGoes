@@ -39,6 +39,20 @@ namespace WhereItGoes.Web.Controllers
 		#region Postbacks & Json
 
 		[HttpPost]
+		public ActionResult Analyse(DateTime from, DateTime to)
+		{
+			var result = new AnalysisResult();
+			var transactions = _db.Transactions.Where(t => t.Date >= from && t.Date <= to);
+			foreach (var transaction in transactions)
+				result.AllTransactions.Add(transaction);
+
+			foreach (var summary in transactions.GroupBy(t => t.Category))
+				result.CategoryCounts.Add(summary.Key ?? Category.Unknown, summary.Count());
+
+			return SafeJson(result);
+		}
+
+		[HttpPost]
 		public ActionResult GetCategories()
 		{
 			return SafeJson(_db.Categories.OrderBy(c => c.Name).ToList());
