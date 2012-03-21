@@ -145,7 +145,7 @@ namespace WhereItGoes.Web.Controllers
 			}
 			_db.SaveChanges();
 
-			return SafeJson(categorised);
+			return SafeJson(BuildResults(categorised));
 		}
 
 		#endregion
