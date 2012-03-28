@@ -16,19 +16,22 @@ namespace WhereItGoes.Web.Controllers
 	public class HomeController : Controller
 	{
 		private DataContext _db = new DataContext();
-
-		#region Views
 		
+		#region Views
+
+		[Authorize]
 		public ActionResult Index()
 		{
 			return View();
 		}
 
+		[Authorize]
 		public ActionResult Categories()
 		{
 			return View();
 		}
 
+		[Authorize]
 		public ActionResult UploadStatements()
 		{
 			return View();
@@ -39,36 +42,47 @@ namespace WhereItGoes.Web.Controllers
 		#region Postbacks & Json
 
 		[HttpPost]
+		[Authorize]
 		public ActionResult Analyse(DateTime from, DateTime to)
 		{
-			var transactions = _db.Transactions.Where(t => t.Date >= from && t.Date <= to);
+			var userName = GetUserName();
+			var transactions = _db.Transactions
+				.Where(t => t.Owner.UserName == userName)
+				.Where(t => t.Date >= from && t.Date <= to);
 			var result = BuildResults(transactions);
 
 			return SafeJson(result);
 		}
 
 		[HttpPost]
+		[Authorize]
 		public ActionResult RecategoriseAll(DateTime from, DateTime to)
 		{
-			var recategorised = CategoriseTransactions(_db.Transactions.Where(t => t.Date >= from && t.Date <= to)).ToList();
+			var userName = GetUserName();
+			var recategorised = CategoriseTransactions(_db.Transactions.Where(t => t.Owner.UserName == userName).Where(t => t.Date >= from && t.Date <= to)).ToList();
 			_db.SaveChanges();
 			var result = BuildResults(recategorised);
 			return SafeJson(result);
 		}
 
 		[HttpPost]
+		[Authorize]
 		public ActionResult GetCategories()
 		{
-			return SafeJson(_db.Categories.OrderBy(c => c.Name).ToList());
+			var userName = GetUserName();
+			return SafeJson(_db.Categories.Where(t => t.Owner.UserName == userName).OrderBy(c => c.Name).ToList());
 		}
 
 		[HttpPost]
+		[Authorize]
 		public ActionResult AddCategory()
 		{
+			var userName = GetUserName();
 			var category = new Category
 			{
 				Id = Guid.NewGuid(),
-				Name = "New Category"
+				Name = "New Category",
+				Owner = _db.Users.First(u => u.UserName == userName)
 			};
 
 			_db.Categories.Add(category);
@@ -78,9 +92,13 @@ namespace WhereItGoes.Web.Controllers
 		}
 
 		[HttpPost]
+		[Authorize]
 		public ActionResult AddRule(Category category)
 		{
-			var match = _db.Categories.First(c => c.Id == category.Id);
+			var userName = GetUserName();
+			var match = _db.Categories
+							.Where(t => t.Owner.UserName == userName)
+							.First(c => c.Id == category.Id);
 			var rule = new Rule
 			{
 				Id = Guid.NewGuid(),
@@ -98,6 +116,7 @@ namespace WhereItGoes.Web.Controllers
 		}
 
 		[HttpPost]
+		[Authorize]
 		public ActionResult SaveCategory(Category category)
 		{
 			_db.Categories.AddOrUpdate(category);
@@ -116,9 +135,13 @@ namespace WhereItGoes.Web.Controllers
 		}
 
 		[HttpPost]
+		[Authorize]
 		public ActionResult RemoveCategory(Category category)
 		{
-			var match = _db.Categories.FirstOrDefault(c => c.Id == category.Id);
+			var userName = GetUserName();
+			var match = _db.Categories
+							.Where(t => t.Owner.UserName == userName)
+							.FirstOrDefault(c => c.Id == category.Id);
 			if (match == null) return SafeJson(false);
 
 			foreach (var transaction in _db.Transactions)
@@ -134,6 +157,7 @@ namespace WhereItGoes.Web.Controllers
 		}
 
 		[HttpPost]
+		[Authorize]
 		public ActionResult UploadStatement(HttpPostedFileBase file)
 		{
 			var transactions = ReadTransactions(file.InputStream);
@@ -172,12 +196,15 @@ namespace WhereItGoes.Web.Controllers
 
 		private IEnumerable<Transaction> CategoriseTransactions(IEnumerable<Transaction> transactions)
 		{
-			var rules = _db.Rules.ToList() //extra ToList here to prevent Linq-to-Entities problems
+			var userName = GetUserName();
+			var rules = _db.Rules.Where(r => r.Result.Owner.UserName == userName).ToList() //extra ToList here to prevent Linq-to-Entities problems
 							.Select(r => new
 							{
 								Rule = r,
 								Pattern = new Regex(r.Pattern)
 							}).ToList();
+
+			var currentUser = new Lazy<User>(() => _db.Users.First(u => u.UserName == userName));
 
 			foreach (var transaction in transactions)
 			{
@@ -189,6 +216,8 @@ namespace WhereItGoes.Web.Controllers
 						break;
 					}
 				}
+
+				transaction.Owner = transaction.Owner ?? currentUser.Value;
 
 				yield return transaction;
 			}
@@ -238,6 +267,11 @@ namespace WhereItGoes.Web.Controllers
 				result.Expenditure.Add(new object[] { string.Format("{0} ({1:c})", category.Name, Math.Abs(total)), total });
 			}
 			return result;
+		}
+
+		private string GetUserName() 
+		{
+			return this.User.Identity.Name;
 		}
 
 		#endregion

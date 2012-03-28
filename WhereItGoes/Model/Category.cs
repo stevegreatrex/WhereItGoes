@@ -11,6 +11,8 @@ namespace WhereItGoes.Model
 
 		public Guid Id { get; set; }
 
+		public virtual User Owner { get; set; }
+
 		public virtual ICollection<Rule> Rules { get; set; }
 
 		public static readonly Category Unknown = new Category

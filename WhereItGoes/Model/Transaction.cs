@@ -12,5 +12,7 @@ namespace WhereItGoes.Model
 		public DateTime Date { get; set; }
 		public string Description { get; set; }
 		public virtual Category Category { get; set; }
+
+		public virtual User Owner { get; set; }
 	}
 }

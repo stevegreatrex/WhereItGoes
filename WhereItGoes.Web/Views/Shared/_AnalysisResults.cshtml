@@ -1,8 +1,8 @@
 ﻿<h3 data-bind="visible: results">Total Spent: £<span data-bind="text: results() ? results().totalExpenditure : null"></span></h3>
 <div id="results"></div>
 <div id="all-transactions-container">
-    <table id="transactions-table" class="tablesorter">
-        <thead data-bind="visible: results()">
+    <table id="transactions-table" class="tablesorter" data-bind="visible: results()">
+        <thead>
             <tr>
                 <th>Description</th>
                 <th>Category</th>
