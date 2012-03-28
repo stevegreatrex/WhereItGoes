@@ -1,15 +1,15 @@
 ﻿<h3 data-bind="visible: results">Total Spent: £<span data-bind="text: results() ? results().totalExpenditure : null"></span></h3>
 <div id="results"></div>
 <div id="all-transactions-container">
-    <table id="transactions-table">
+    <table id="transactions-table" class="tablesorter">
         <thead data-bind="visible: results()">
             <tr>
-                <td>Description</td>
-                <td>Category</td>
-                <td>Value</td>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Value</th>
             </tr>
         </thead>
-        <tbody data-bind="template: { name: 'transaction-template', foreach: results() ? results().transactions : null }">
+        <tbody data-bind="template: { name: 'transaction-template', foreach: results() ? results().transactions : null }, tablesorter: true">
         </tbody>
     </table>
 </div>
