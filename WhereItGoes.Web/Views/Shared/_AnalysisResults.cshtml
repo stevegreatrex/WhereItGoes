@@ -4,6 +4,7 @@
     <table id="transactions-table" class="tablesorter" data-bind="visible: results()">
         <thead>
             <tr>
+                <th>Date</th>
                 <th>Description</th>
                 <th>Category</th>
                 <th>Value</th>
@@ -16,6 +17,9 @@
 
 <script type="text/html" id="transaction-template">
     <tr>
+        <td>
+            <span data-bind="text: date().format('DD-MM-YYYY')"></span>
+        </td>
         <td>
             <span data-bind="text: description"></span>
         </td>

@@ -5,6 +5,12 @@
         _self.value = ko.observable(transaction.Value);
         _self.category = ko.observable(transaction.Category ? transaction.Category.Name : "Unknown");
 
+        if (transaction.Date) {
+            var exp = /-?\d+/;
+            var sinceEpoch = exp.exec(transaction.Date)[0];
+            _self.date = ko.observable(moment(parseFloat(sinceEpoch)));
+        }
+
         return _self;
     };
 

@@ -4,7 +4,8 @@ test("Properties Set", function () {
     var transaction = {
         Description: "description",
         Value: -123.54,
-        Category: { Name: "category" }
+        Category: { Name: "category" },
+        Date: "/Date(1329609600000+0000)/"
     };
 
     var vm = new App.ViewModels.TransactionViewModel(transaction);
@@ -12,7 +13,8 @@ test("Properties Set", function () {
     equal(vm.description(), "description", "The description property should have been set");
     equal(vm.value(), -123.54, "The value property should have been set");
     equal(vm.category(), "category", "The category property should have been set");
-
+    equal(vm.date().format("DD-MM-YYYY"), "19-02-2012", "The date property should have been set");
+    
     //check the handling of null Category
     transaction.Category = null;
     var vm = new App.ViewModels.TransactionViewModel(transaction);
